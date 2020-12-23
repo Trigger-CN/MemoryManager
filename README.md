@@ -12,3 +12,4 @@ MemoryManager内存管理器
 Node_TypeDef *newNode = (Node_TypeDef*)MM_Alloc(sizeof(Node_TypeDef));
 
 MM_Free(newNode);
+```
