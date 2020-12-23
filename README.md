@@ -9,7 +9,12 @@ MemoryManager内存管理器
 
 ### 示例
 ```c
+//申请内存
 Node_TypeDef *newNode = (Node_TypeDef*)MM_Alloc(sizeof(Node_TypeDef));
-
+//内存初始化
+MM_Set(newNode, 0, sizeof(Node_TypeDef));
+//输出内存占用情况
+printf("%d\n",MM_Occupation());
+//内存释放
 MM_Free(newNode);
 ```
