@@ -5,7 +5,7 @@
     ！！本内存管理器的所有操作都基于本管理器内存池，无法操作本内存池以外的内存
     
     作者：Trigger
-    日期：2020.12.13
+    日期：2020.12.25
 */
 
 #include "MM.h"
@@ -36,21 +36,6 @@ void MM_MemPoolInit()
     }
 }
 
-///**
-//  * @brief  MemPoolScan 内存池扫描
-//  * @param  无
-//  * @retval 无
-//  */
-//static void MM_MemPoolScan()
-//{
-//    for (int i = 0; i < 1024; i++)
-//    {
-//        if (memPool[i])
-//            memAllocTabel[i / 8] = memAllocTabel[i / 8] |= (1 << i % 8);
-//        else
-//            memAllocTabel[i / 8] = memAllocTabel[i / 8] &= (~(1 << i % 8));
-//    }
-//}
 
 /**
   * @brief  SpaceSearch 内存空间查找（按照内存分配表查找）
