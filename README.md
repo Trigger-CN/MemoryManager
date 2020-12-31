@@ -18,3 +18,21 @@ printf("%d\n",MM_Occupation());
 //内存释放
 MM_Free(newNode);
 ```
+2020.12.31现已加入Debug功能，方便排查错误
+
+```c
+#define USE_DEBUG 1 //当USE_DEBUG为1时，打开Debug功能，反之关闭。
+
+#if ( USE_DEBUG != 0 )
+#include <stdio.h>
+#define DEBUG_LOG(format, ...)\
+do{\
+    printf("File:%s Line:%d Function:%s >>", __FILE__, __LINE__, __FUNCTION__);\
+    printf(format, ##__VA_ARGS__);\
+    printf("\r\n");\
+    while(1);\
+}while(0)
+#else
+#define DEBUG_LOG(...)
+#endif
+```
