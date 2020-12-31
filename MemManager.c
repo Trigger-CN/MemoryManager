@@ -9,10 +9,26 @@
 */
 
 #include "MM.h"
+
+#define USE_DEBUG 1
+
+#if ( USE_DEBUG != 0 )
+#include <stdio.h>
+#define DEBUG_LOG(format, ...)\
+do{\
+    printf("File:%s Line:%d Function:%s >>", __FILE__, __LINE__, __FUNCTION__);\
+    printf(format, ##__VA_ARGS__);\
+    printf("\r\n");\
+    while(1);\
+}while(0)
+#else
+#define DEBUG_LOG(...)
+#endif
+
 /*Pool_Size 内存池大小*/
-#define Pool_Size 1024
+#define Pool_Size ( 4 * 1024 )
 /*AllocTabel_Size 内存分配表大小*/
-#define AllocTabel_Size Pool_Size/8
+#define AllocTabel_Size (Pool_Size/8)
 
 /*memPool 内存池*/
 static uint8_t memPool[Pool_Size];
@@ -54,7 +70,7 @@ static int16_t MM_SpaceSearch(size_t s)
             spaceSize = 0;
         if (spaceSize == s + 2)
         {
-            return i - s;
+            return (int16_t)(i - s);
         }
     }
     return -1;
@@ -68,7 +84,7 @@ static int16_t MM_SpaceSearch(size_t s)
 uint16_t MM_GetTableIndex(void* Block)
 {
     uint8_t* poolP = memPool;
-    return ((uint8_t*)Block - poolP) / 8;
+    return (uint16_t)(((uint8_t*)Block - poolP) / 8);
 }
 
 /**
@@ -78,9 +94,14 @@ uint16_t MM_GetTableIndex(void* Block)
   */
 void* MM_Alloc(size_t s)
 {
+    printf("MM_Alloc: %d MM_Occupation() = %ld\r\n", s, MM_Occupation());
+
     int spaceIndex = MM_SpaceSearch(s);
-    if(spaceIndex==-1)
-        return 0;
+    if (spaceIndex == -1)
+    {
+        DEBUG_LOG("Space Search Faild");
+        return NULL;
+    }    
     for (size_t i = spaceIndex; i < spaceIndex + s; i++)
     {
         memAllocTabel[i / 8] = memAllocTabel[i / 8] |= (0x80 >> i % 8);
@@ -95,8 +116,13 @@ void* MM_Alloc(size_t s)
   */
 uint8_t MM_Free(void* Block)
 {
+    if (Block==NULL)
+    {
+        DEBUG_LOG("Block is NULL!");
+        return 0;
+    }
     uint8_t* poolP = memPool;
-    uint16_t blockIndex = (uint8_t*)Block - poolP;
+    uint16_t blockIndex = (uint16_t)((uint8_t*)Block - poolP);
     uint16_t pDev = blockIndex;
     while ((memAllocTabel[pDev / 8] & (0x80 >> (pDev % 8))))
     {
@@ -119,11 +145,11 @@ uint8_t MM_Free(void* Block)
 uint8_t MM_Set(void *Block, int val, size_t s)
 {
     uint8_t *pBlock = (uint8_t*)Block;
-    int valBlock = (int)Block;
-    if(pBlock>=&memPool[0]&&pBlock<=&memPool[Pool_Size-1])
+    size_t valBlock = (size_t)Block;
+    if(pBlock >= &memPool[0] && pBlock <= &memPool[Pool_Size-1])
     {
-        int blockIndex = valBlock-(int)memPool;
-        for(int i = blockIndex;i<blockIndex+s;i++)
+        size_t blockIndex = valBlock - (size_t)memPool;
+        for(size_t i = blockIndex;i<blockIndex+s;i++)
             memPool[i] = val;
     }
     else
