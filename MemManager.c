@@ -1,11 +1,11 @@
 /*
-    MemManagerå†…å­˜ç®¡ç†å™¨
-    è½»é‡åŒ–çš„å†…å­˜ç®¡ç†å™¨
-    ï¼ï¼æœ¬ç®¡ç†å™¨ç”¨äºæ“ä½œé™å®šçš„è¿ç»­çš„å†…å­˜åŒºåŸŸ
-    ï¼ï¼æœ¬å†…å­˜ç®¡ç†å™¨çš„æ‰€æœ‰æ“ä½œéƒ½åŸºäºæœ¬ç®¡ç†å™¨å†…å­˜æ± ï¼Œæ— æ³•æ“ä½œæœ¬å†…å­˜æ± ä»¥å¤–çš„å†…å­˜
+    MemManagerÄÚ´æ¹ÜÀíÆ÷
+    ÇáÁ¿»¯µÄÄÚ´æ¹ÜÀíÆ÷
+    £¡£¡±¾¹ÜÀíÆ÷ÓÃÓÚ²Ù×÷ÏŞ¶¨µÄÁ¬ĞøµÄÄÚ´æÇøÓò
+    £¡£¡±¾ÄÚ´æ¹ÜÀíÆ÷µÄËùÓĞ²Ù×÷¶¼»ùÓÚ±¾¹ÜÀíÆ÷ÄÚ´æ³Ø£¬ÎŞ·¨²Ù×÷±¾ÄÚ´æ³ØÒÔÍâµÄÄÚ´æ
     
-    ä½œè€…ï¼šTrigger
-    æ—¥æœŸï¼š2020.12.25
+    ×÷Õß£ºTrigger
+    ÈÕÆÚ£º2020.12.25
 */
 
 #include "MM.h"
@@ -25,20 +25,20 @@ do{\
 #define DEBUG_LOG(...)
 #endif
 
-/*Pool_Size å†…å­˜æ± å¤§å°*/
+/*Pool_Size ÄÚ´æ³Ø´óĞ¡*/
 #define Pool_Size ( 4 * 1024 )
-/*AllocTabel_Size å†…å­˜åˆ†é…è¡¨å¤§å°*/
+/*AllocTabel_Size ÄÚ´æ·ÖÅä±í´óĞ¡*/
 #define AllocTabel_Size (Pool_Size/8)
 
-/*memPool å†…å­˜æ± */
+/*memPool ÄÚ´æ³Ø*/
 static uint8_t memPool[Pool_Size];
-/*memAllocTabel å†…å­˜åˆ†é…è¡¨*/
+/*memAllocTabel ÄÚ´æ·ÖÅä±í*/
 static uint8_t memAllocTabel[AllocTabel_Size];
 
 /**
-  * @brief  MemPoolInit åˆå§‹åŒ–å†…å­˜æ± å’Œå†…å­˜åˆ†é…è¡¨
-  * @param  æ— 
-  * @retval æ— 
+  * @brief  MemPoolInit ³õÊ¼»¯ÄÚ´æ³ØºÍÄÚ´æ·ÖÅä±í
+  * @param  ÎŞ
+  * @retval ÎŞ
   */
 void MM_MemPoolInit()
 {
@@ -54,9 +54,9 @@ void MM_MemPoolInit()
 
 
 /**
-  * @brief  SpaceSearch å†…å­˜ç©ºé—´æŸ¥æ‰¾ï¼ˆæŒ‰ç…§å†…å­˜åˆ†é…è¡¨æŸ¥æ‰¾ï¼‰
-  * @param  sï¼š(size_t)ç©ºé—´å¤§å°
-  * @retval (int16_t)åˆé€‚ç©ºé—´é¦–å…ƒç´ ä¸‹æ ‡(æœªæ‰¾åˆ°ç©ºé—´è¿”å›-1)
+  * @brief  SpaceSearch ÄÚ´æ¿Õ¼ä²éÕÒ£¨°´ÕÕÄÚ´æ·ÖÅä±í²éÕÒ£©
+  * @param  s£º(size_t)¿Õ¼ä´óĞ¡
+  * @retval (int16_t)ºÏÊÊ¿Õ¼äÊ×ÔªËØÏÂ±ê(Î´ÕÒµ½¿Õ¼ä·µ»Ø-1)
   */
 static int16_t MM_SpaceSearch(size_t s)
 {
@@ -77,9 +77,9 @@ static int16_t MM_SpaceSearch(size_t s)
 }
 
 /**
-  * @brief  GetTableIndex è·å–é¦–å…ƒç´ çš„åˆ†é…è¡¨ä¸‹æ ‡
-  * @param  Block (void*)ç›®æ ‡åœ°å€
-  * @retval (uint16_t)åˆ†é…è¡¨ä¸‹æ ‡
+  * @brief  GetTableIndex »ñÈ¡Ê×ÔªËØµÄ·ÖÅä±íÏÂ±ê
+  * @param  Block (void*)Ä¿±êµØÖ·
+  * @retval (uint16_t)·ÖÅä±íÏÂ±ê
   */
 uint16_t MM_GetTableIndex(void* Block)
 {
@@ -88,9 +88,9 @@ uint16_t MM_GetTableIndex(void* Block)
 }
 
 /**
-  * @brief  Alloc ç”³è¯·å†…å­˜
-  * @param  sï¼š(size_t)ç©ºé—´å¤§å°
-  * @retval (void*)ç©ºé—´åœ°å€
+  * @brief  Alloc ÉêÇëÄÚ´æ
+  * @param  s£º(size_t)¿Õ¼ä´óĞ¡
+  * @retval (void*)¿Õ¼äµØÖ·
   */
 void* MM_Alloc(size_t s)
 {
@@ -108,9 +108,9 @@ void* MM_Alloc(size_t s)
 }
 
 /**
-  * @brief  Free é‡Šæ”¾å†…å­˜
-  * @param  Block (void*)ç›®æ ‡åœ°å€
-  * @retval (uint8_t)é‡Šæ”¾ç»“æœ
+  * @brief  Free ÊÍ·ÅÄÚ´æ
+  * @param  Block (void*)Ä¿±êµØÖ·
+  * @retval (uint8_t)ÊÍ·Å½á¹û
   */
 uint8_t MM_Free(void* Block)
 {
@@ -134,11 +134,11 @@ uint8_t MM_Free(void* Block)
 }
 
 /**
-  * @brief  Set è®¾ç½®å†…å­˜å€¼
-  * @param  Block (void*)ç›®æ ‡åœ°å€
-  * @param  val (int)ç›®æ ‡å€¼
-  * @param  s (size_t)ç›®æ ‡å¤§å°
-  * @retval (uint8_t)è®¾ç½®ç»“æœ
+  * @brief  Set ÉèÖÃÄÚ´æÖµ
+  * @param  Block (void*)Ä¿±êµØÖ·
+  * @param  val (int)Ä¿±êÖµ
+  * @param  s (size_t)Ä¿±ê´óĞ¡
+  * @retval (uint8_t)ÉèÖÃ½á¹û
   */
 uint8_t MM_Set(void *Block, int val, size_t s)
 {
@@ -156,9 +156,9 @@ uint8_t MM_Set(void *Block, int val, size_t s)
 }
 
 /**
-  * @brief  Occupation æŸ¥çœ‹å ç”¨æƒ…å†µ
-  * @param  æ— 
-  * @retval (int)å·²å ç”¨å­—èŠ‚æ•°
+  * @brief  Occupation ²é¿´Õ¼ÓÃÇé¿ö
+  * @param  ÎŞ
+  * @retval (int)ÒÑÕ¼ÓÃ×Ö½ÚÊı
   */
 int MM_Occupation()
 {
